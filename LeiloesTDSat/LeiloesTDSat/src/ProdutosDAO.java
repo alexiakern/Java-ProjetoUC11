@@ -34,8 +34,26 @@ public class ProdutosDAO {
         System.out.println("Produto cadastrado");
     }
     
-    
-    
-        
+    public static ArrayList<ProdutosDTO> listarProdutos(){
+        ArrayList<ProdutosDTO> produtos = new ArrayList<>();
+        try {
+            String query = "SELECT id, nome, valor, status FROM produtos"; 
+            PreparedStatement consulta = ConectaDAO.getConexao().prepareStatement(query);
+            ResultSet resposta = consulta.executeQuery();
+            while(resposta.next()) {
+                ProdutosDTO prod = new ProdutosDTO();
+                prod.setId(resposta.getInt("id"));
+                prod.setNome(resposta.getString("nome"));
+                prod.setStatus(resposta.getString("status"));
+                prod.setValor(resposta.getInt("valor"));
+                produtos.add(prod);
+            }
+            ConectaDAO.desconectar();
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao consultar produtos");
+            System.out.println("Erro ao consultar produtos" + e.getMessage());
+        }
+        return produtos;
+    }        
 }
 
