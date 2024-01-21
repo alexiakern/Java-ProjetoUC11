@@ -30,6 +30,7 @@ public class ConectaDAO {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
+                connection = null;
                 System.out.println("Desconectado");
             }
         } catch (SQLException e) {
