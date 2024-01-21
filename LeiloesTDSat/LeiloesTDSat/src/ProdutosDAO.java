@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 
 public class ProdutosDAO {
-    public static void cadastrarProduto (ProdutosDTO produto){
+    public static void cadastrarProduto(ProdutosDTO produto){
         try { 
             String query = "INSERT INTO produtos (nome, valor) VALUES (?, ?)"; 
             PreparedStatement consulta = ConectaDAO.getConexao().prepareStatement(query);
@@ -54,6 +54,21 @@ public class ProdutosDAO {
             System.out.println("Erro ao consultar produtos" + e.getMessage());
         }
         return produtos;
-    }        
+    }
+    
+    public static void venderProduto(int id){
+        try { 
+            String query = "UPDATE produtos SET status = 'Vendido' WHERE id = ?"; 
+            PreparedStatement consulta = ConectaDAO.getConexao().prepareStatement(query);
+
+            consulta.setInt(1, id);
+
+            consulta.execute(); 
+            ConectaDAO.desconectar();
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto");
+            System.out.println("Erro ao cadastrar" + e.getMessage());
+        }
+    }
 }
 
